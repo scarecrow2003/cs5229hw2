@@ -79,7 +79,7 @@ def S1toS2():
                      "ipv4_src": "10.0.0.1",
                      "ipv4_dst": "10.0.0.2",
                      "active": "true",
-                     "actions": "set_queue=q1"}
+                     "actions": "set_queue=q1,output=2"}
     # For switch S1, use q1, which limits to 1Mbps, to limit the traffic from h2 to h1
     S1H2ToH1Limit = {'switch': "00:00:00:00:00:00:00:01",
                      "name": "S1h2toh1limit",
@@ -90,7 +90,7 @@ def S1toS2():
                      "ipv4_src": "10.0.0.2",
                      "ipv4_dst": "10.0.0.1",
                      "active": "true",
-                     "actions": "set_queue=q1"}
+                     "actions": "set_queue=q1,output=1"}
     # For switch S2, use q1, which limits to 1Mbps, to limit the traffic from h1 to h2
     S2H1ToH2Limit = {'switch': "00:00:00:00:00:00:00:02",
                      "name": "S2h1toh2limit",
@@ -101,7 +101,7 @@ def S1toS2():
                      "ipv4_src": "10.0.0.1",
                      "ipv4_dst": "10.0.0.2",
                      "active": "true",
-                     "actions": "set_queue=q1"}
+                     "actions": "set_queue=q1,output=1"}
     # For switch S2, use q1, which limits to 1Mbps, to limit the traffic from h2 to h1
     S2H2ToH1Limit = {'switch': "00:00:00:00:00:00:00:02",
                      "name": "S2h2toh1limit",
@@ -112,7 +112,7 @@ def S1toS2():
                      "ipv4_src": "10.0.0.2",
                      "ipv4_dst": "10.0.0.1",
                      "active": "true",
-                     "actions": "set_queue=q1"}
+                     "actions": "set_queue=q1,output=2"}
     pusher.set(S1H1ToH2Limit)
     pusher.set(S1H2ToH1Limit)
     pusher.set(S2H1ToH2Limit)
