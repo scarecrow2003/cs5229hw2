@@ -73,9 +73,9 @@ def S1toS2():
 
 # To insert the policies for the traffic applicable to path between S2 and S3
 def S2toS3():
-    # For switch S2, block all UDP from h2 to h3
-    S2H2ToH3BlockAll = {'switch': "00:00:00:00:00:00:00:02",
-                        "name": "S2h2toh3blockall",
+    # For switch S2, block traffic from h2 to h3 for UDP port 1000 ~ 1007
+    S2H2ToH3Block1 = {'switch': "00:00:00:00:00:00:00:02",
+                        "name": "S2h2toh3block1",
                         "cookie": "0",
                         "priority": "2",
                         "in_port": "1",
@@ -86,38 +86,75 @@ def S2toS3():
                         "udp_dst": "0x03e8/0xfff8",
                         "active": "true",
                         "actions": ""}
-    # For switch S2, allow UDP from h2 to h3 for port less than 1000
-    # S2H2ToH3AllowLower = {'switch': "00:00:00:00:00:00:00:02",
-    #                       "name": "S2h2toh3allowlower",
-    #                       "cookie": "0",
-    #                       "priority": "3",
-    #                       "in_port": "1",
-    #                       "eth_type": "0x800",
-    #                       "ipv4_src": "10.0.0.2",
-    #                       "ipv4_dst": "10.0.0.3",
-    #                       "ip_proto": "0x11",
-    #                       # "udp_dst": "0x03e8/0xfff8",
-    #                       "udp_dst": "999",
-    #                       "active": "true",
-    #                       "actions": "output=3"}
-    # For switch S2, allow UDP from h2 to h3 for port greater than 1100
-    # S2H2ToH3AllowUpper = {'switch': "00:00:00:00:00:00:00:02",
-    #                       "name": "S2h2toh3allowupper",
-    #                       "cookie": "0",
-    #                       "priority": "1",
-    #                       "in_port": "1",
-    #                       "eth_type": "0x800",
-    #                       "ipv4_src": "10.0.0.2",
-    #                       "ipv4_dst": "10.0.0.3",
-    #                       "ip_proto": "0x11",
-    #                       # "udp_dst": ">1100",
-    #                       "udp_dst": "1010",
-    #                       "active": "true",
-    #                       "actions": "output=3"}
+    # For switch S2, block traffic from h2 to h3 for UDP port 1008 ~ 1023
+    S2H2ToH3Block2 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h2toh3block2",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x03f0/0xfff0",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S2, block traffic from h2 to h3 for UDP port 1024 ~ 1087
+    S2H2ToH3Block3 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h2toh3block3",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0400/0xffc0",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S2, block traffic from h2 to h3 for UDP port 1088 ~ 1095
+    S2H2ToH3Block4 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h2toh3block4",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0440/0xfff8",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S2, block traffic from h2 to h3 for UDP port 1096 ~ 1099
+    S2H2ToH3Block5 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h2toh3block5",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0448/0xfffc",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S2, block traffic from h2 to h3 for UDP port 1100
+    S2H2ToH3Block6 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h2toh3block6",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "1100",
+                      "active": "true",
+                      "actions": ""}
 
-    # For switch S2, block all UDP from h3 to h2
-    S2H3ToH2BlockAll = {'switch': "00:00:00:00:00:00:00:02",
-                        "name": "S2h3toh2blockall",
+    # For switch S2, block traffic from h3 to h2 for UDP port 1000 ~1007
+    S2H3ToH2Block1 = {'switch': "00:00:00:00:00:00:00:02",
+                        "name": "S2h3toh2block1",
                         "cookie": "0",
                         "priority": "2",
                         "in_port": "3",
@@ -128,42 +165,87 @@ def S2toS3():
                         "udp_dst": "0x03e8/0xfff8",
                         "active": "true",
                         "actions": ""}
-    # For switch S2, allow UDP from h2 to h3 for port less than 1000
-    # S2H3ToH2AllowLower = {'switch': "00:00:00:00:00:00:00:02",
-    #                       "name": "S2h3toh2allowlower",
-    #                       "cookie": "0",
-    #                       "priority": "3",
-    #                       "in_port": "3",
-    #                       "eth_type": "0x800",
-    #                       "ipv4_src": "10.0.0.3",
-    #                       "ipv4_dst": "10.0.0.2",
-    #                       "ip_proto": "0x11",
-    #                       "udp_dst": "999",
-    #                       "active": "true",
-    #                       "actions": "output=1"}
-    # For switch S2, allow UDP from h2 to h3 for port greater than 1100
-    # S2H3ToH2AllowUpper = {'switch': "00:00:00:00:00:00:00:02",
-    #                       "name": "S2h3toh2allowupper",
-    #                       "cookie": "0",
-    #                       "priority": "1",
-    #                       "in_port": "3",
-    #                       "eth_type": "0x800",
-    #                       "ipv4_src": "10.0.0.3",
-    #                       "ipv4_dst": "10.0.0.2",
-    #                       "ip_proto": "0x11",
-    #                       "udp_dst": "1010",
-    #                       "active": "true",
-    #                       "actions": "output=1"}
-    pusher.set(S2H2ToH3BlockAll)
-    # pusher.set(S2H2ToH3AllowLower)
-    # pusher.set(S2H2ToH3AllowUpper)
-    pusher.set(S2H3ToH2BlockAll)
-    # pusher.set(S2H3ToH2AllowLower)
-    # pusher.set(S2H3ToH2AllowUpper)
+    # For switch S2, block traffic from h3 to h2 for UDP port 1008 ~1023
+    S2H3ToH2Block2 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h3toh2block2",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x03f0/0xfff0",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S2, block traffic from h3 to h2 for UDP port 1024 ~1087
+    S2H3ToH2Block3 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h3toh2block3",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0400/0xffc0",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S2, block traffic from h3 to h2 for UDP port 1088 ~1095
+    S2H3ToH2Block4 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h3toh2block4",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0440/0xfff8",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S2, block traffic from h3 to h2 for UDP port 1096 ~1099
+    S2H3ToH2Block5 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h3toh2block5",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0448/0xfffc",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S2, block traffic from h3 to h2 for UDP port 1100
+    S2H3ToH2Block6 = {'switch': "00:00:00:00:00:00:00:02",
+                      "name": "S2h3toh2block6",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "1100",
+                      "active": "true",
+                      "actions": ""}
+    pusher.set(S2H2ToH3Block1)
+    pusher.set(S2H2ToH3Block2)
+    pusher.set(S2H2ToH3Block3)
+    pusher.set(S2H2ToH3Block4)
+    pusher.set(S2H2ToH3Block5)
+    pusher.set(S2H2ToH3Block6)
+    pusher.set(S2H3ToH2Block1)
+    pusher.set(S2H3ToH2Block2)
+    pusher.set(S2H3ToH2Block3)
+    pusher.set(S2H3ToH2Block4)
+    pusher.set(S2H3ToH2Block5)
+    pusher.set(S2H3ToH2Block6)
 
-    # For switch S3, block all UDP from h2 to h3
-    S3H2ToH3BlockAll = {'switch': "00:00:00:00:00:00:00:03",
-                        "name": "S3h2toh3blockall",
+    # For switch S3, block traffic from h2 to h3 for UDP port 1000 ~ 1007
+    S3H2ToH3Block1 = {'switch': "00:00:00:00:00:00:00:03",
+                        "name": "S3h2toh3block1",
                         "cookie": "0",
                         "priority": "2",
                         "in_port": "3",
@@ -174,78 +256,162 @@ def S2toS3():
                         "udp_dst": "0x03e8/0xfff8",
                         "active": "true",
                         "actions": ""}
-    # For switch S3, allow UDP from h2 to h3 for port less than 1000
-    # S3H2ToH3AllowLower = {'switch': "00:00:00:00:00:00:00:03",
-    #                       "name": "S3h2toh3allowlower",
-    #                       "cookie": "0",
-    #                       "priority": "3",
-    #                       "in_port": "3",
-    #                       "eth_type": "0x800",
-    #                       "ipv4_src": "10.0.0.2",
-    #                       "ipv4_dst": "10.0.0.3",
-    #                       "ip_proto": "0x11",
-    #                       "udp_dst": "999",
-    #                       "active": "true",
-    #                       "actions": "output=1"}
-    # For switch S3, allow UDP from h2 to h3 for port greater than 1100
-    # S3H2ToH3AllowUpper = {'switch': "00:00:00:00:00:00:00:03",
-    #                       "name": "S3h2toh3allowupper",
-    #                       "cookie": "0",
-    #                       "priority": "3",
-    #                       "in_port": "3",
-    #                       "eth_type": "0x800",
-    #                       "ipv4_src": "10.0.0.2",
-    #                       "ipv4_dst": "10.0.0.3",
-    #                       "ip_proto": "0x11",
-    #                       "udp_dst": ">1100",
-    #                       "active": "true",
-    #                       "actions": "output=1"}
+    # For switch S3, block traffic from h2 to h3 for UDP port 1008 ~ 1023
+    S3H2ToH3Block2 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h2toh3block2",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x03f0/0xfff0",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h2 to h3 for UDP port 1024 ~ 1087
+    S3H2ToH3Block3 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h2toh3block3",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0400/0xffc0",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h2 to h3 for UDP port 1088 ~ 1095
+    S3H2ToH3Block4 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h2toh3block4",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0440/0xfff8",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h2 to h3 for UDP port 1096 ~ 1099
+    S3H2ToH3Block5 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h2toh3block5",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0448/0xfffc",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h2 to h3 for UDP port 1100
+    S3H2ToH3Block6 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h2toh3block6",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "1100",
+                      "active": "true",
+                      "actions": ""}
 
-    # For switch S3, block all UDP from h3 to h2
-    S3H3ToH2BlockAll = {'switch': "00:00:00:00:00:00:00:03",
-                        "name": "S3h3toh2blockall",
-                        "cookie": "0",
-                        "priority": "2",
-                        "in_port": "1",
-                        "eth_type": "0x800",
-                        "ipv4_src": "10.0.0.3",
-                        "ipv4_dst": "10.0.0.2",
-                        "ip_proto": "0x11",
-                        "udp_dst": "0x03e8/0xfff8",
-                        "active": "true",
-                        "actions": ""}
-    # For switch S3, allow UDP from h2 to h3 for port less than 1000
-    # S3H3ToH2AllowLower = {'switch': "00:00:00:00:00:00:00:03",
-    #                       "name": "S3h3toh2allowlower",
-    #                       "cookie": "0",
-    #                       "priority": "3",
-    #                       "in_port": "1",
-    #                       "eth_type": "0x800",
-    #                       "ipv4_src": "10.0.0.3",
-    #                       "ipv4_dst": "10.0.0.2",
-    #                       "ip_proto": "0x11",
-    #                       "udp_dst": "999",
-    #                       "active": "true",
-    #                       "actions": "output=3"}
-    # For switch S3, allow UDP from h2 to h3 for port greater than 1100
-    # S3H3ToH2AllowUpper = {'switch': "00:00:00:00:00:00:00:03",
-    #                       "name": "S3h3toh2allowupper",
-    #                       "cookie": "0",
-    #                       "priority": "3",
-    #                       "in_port": "1",
-    #                       "eth_type": "0x800",
-    #                       "ipv4_src": "10.0.0.3",
-    #                       "ipv4_dst": "10.0.0.2",
-    #                       "ip_proto": "0x11",
-    #                       "udp_dst": ">1100",
-    #                       "active": "true",
-    #                       "actions": "output=3"}
-    pusher.set(S3H2ToH3BlockAll)
-    # pusher.set(S3H2ToH3AllowLower)
-    # pusher.set(S3H2ToH3AllowUpper)
-    pusher.set(S3H3ToH2BlockAll)
-    # pusher.set(S3H3ToH2AllowLower)
-    # pusher.set(S3H3ToH2AllowUpper)
+    # For switch S3, block traffic from h3 to h2 for UDP port 1000 ~1007
+    S3H3ToH2Block1 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h3toh2block1",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x03e8/0xfff8",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h3 to h2 for UDP port 1008 ~1023
+    S3H3ToH2Block2 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h3toh2block2",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x03f0/0xfff0",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h3 to h2 for UDP port 1024 ~1087
+    S3H3ToH2Block3 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h3toh2block3",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0400/0xffc0",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h3 to h2 for UDP port 1088 ~1095
+    S3H3ToH2Block4 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h3toh2block4",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0440/0xfff8",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h3 to h2 for UDP port 1096 ~1099
+    S3H3ToH2Block5 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h3toh2block5",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x0448/0xfffc",
+                      "active": "true",
+                      "actions": ""}
+    # For switch S3, block traffic from h3 to h2 for UDP port 1100
+    S3H3ToH2Block6 = {'switch': "00:00:00:00:00:00:00:03",
+                      "name": "S3h3toh2block6",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "1100",
+                      "active": "true",
+                      "actions": ""}
+    pusher.set(S3H2ToH3Block1)
+    pusher.set(S3H2ToH3Block2)
+    pusher.set(S3H2ToH3Block3)
+    pusher.set(S3H2ToH3Block4)
+    pusher.set(S3H2ToH3Block5)
+    pusher.set(S3H2ToH3Block6)
+    pusher.set(S3H3ToH2Block1)
+    pusher.set(S3H3ToH2Block2)
+    pusher.set(S3H3ToH2Block3)
+    pusher.set(S3H3ToH2Block4)
+    pusher.set(S3H3ToH2Block5)
+    pusher.set(S3H3ToH2Block6)
 
 # To insert the policies for the traffic applicable to path between S1 and S3
 def S1toS3():
