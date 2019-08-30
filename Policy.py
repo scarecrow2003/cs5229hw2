@@ -89,7 +89,7 @@ def S2toS3():
     S2H2ToH3AllowLower = {'switch': "00:00:00:00:00:00:00:02",
                           "name": "S2h2toh3allowlower",
                           "cookie": "0",
-                          "priority": "3",
+                          "priority": "1",
                           "in_port": "1",
                           "eth_type": "0x800",
                           "ipv4_src": "10.0.0.2",
@@ -103,7 +103,7 @@ def S2toS3():
     S2H2ToH3AllowUpper = {'switch': "00:00:00:00:00:00:00:02",
                           "name": "S2h2toh3allowupper",
                           "cookie": "0",
-                          "priority": "3",
+                          "priority": "1",
                           "in_port": "1",
                           "eth_type": "0x800",
                           "ipv4_src": "10.0.0.2",
@@ -130,7 +130,7 @@ def S2toS3():
     S2H3ToH2AllowLower = {'switch': "00:00:00:00:00:00:00:02",
                           "name": "S2h3toh2allowlower",
                           "cookie": "0",
-                          "priority": "3",
+                          "priority": "1",
                           "in_port": "3",
                           "eth_type": "0x800",
                           "ipv4_src": "10.0.0.3",
@@ -143,7 +143,7 @@ def S2toS3():
     S2H3ToH2AllowUpper = {'switch': "00:00:00:00:00:00:00:02",
                           "name": "S2h3toh2allowupper",
                           "cookie": "0",
-                          "priority": "3",
+                          "priority": "1",
                           "in_port": "3",
                           "eth_type": "0x800",
                           "ipv4_src": "10.0.0.3",
@@ -284,10 +284,10 @@ def staticForwarding():
     # Below 4 flows are for setting up the static forwarding for the path H2->S2->S3->H3 & vice-versa
     # Define static flow for Switch S1 for packet forwarding b/w h2 and h3
     S2Staticflow3 = {'switch': "00:00:00:00:00:00:00:02", "name": "S2h2toh3", "cookie": "0",
-                     "priority": "1", "in_port": "1", "eth_type": "0x800", "ipv4_src": "10.0.0.2",
+                     "priority": "5", "in_port": "1", "eth_type": "0x800", "ipv4_src": "10.0.0.2",
                      "ipv4_dst": "10.0.0.3", "active": "true", "actions": "output=3"}
     S2Staticflow4 = {'switch': "00:00:00:00:00:00:00:02", "name": "S2h3toh2", "cookie": "0",
-                     "priority": "1", "in_port": "3", "eth_type": "0x800", "ipv4_src": "10.0.0.3",
+                     "priority": "5", "in_port": "3", "eth_type": "0x800", "ipv4_src": "10.0.0.3",
                      "ipv4_dst": "10.0.0.2", "active": "true", "actions": "output=1"}
     # Define static flow for Switch S3 for packet forwarding b/w h2 and h3
     S3Staticflow3 = {'switch': "00:00:00:00:00:00:00:03", "name": "S3h3toh2", "cookie": "0",
