@@ -97,7 +97,7 @@ def S2toS3():
                           "ip_proto": "0x11",
                           "udp_dst": "<1000",
                           "active": "true",
-                          "actions": "output=2"}
+                          "actions": "output=3"}
     # For switch S2, allow UDP from h2 to h3 for port greater than 1100
     S2H2ToH3AllowUpper = {'switch': "00:00:00:00:00:00:00:02",
                           "name": "S2h2toh3allowupper",
@@ -110,14 +110,14 @@ def S2toS3():
                           "ip_proto": "0x11",
                           "udp_dst": ">1100",
                           "active": "true",
-                          "actions": "output=2"}
+                          "actions": "output=3"}
 
     # For switch S2, block all UDP from h3 to h2
     S2H3ToH2BlockAll = {'switch': "00:00:00:00:00:00:00:02",
                         "name": "S2h3toh2blockall",
                         "cookie": "0",
                         "priority": "2",
-                        "in_port": "2",
+                        "in_port": "3",
                         "eth_type": "0x800",
                         "ipv4_src": "10.0.0.3",
                         "ipv4_dst": "10.0.0.2",
@@ -129,7 +129,7 @@ def S2toS3():
                           "name": "S2h3toh2allowlower",
                           "cookie": "0",
                           "priority": "1",
-                          "in_port": "2",
+                          "in_port": "3",
                           "eth_type": "0x800",
                           "ipv4_src": "10.0.0.3",
                           "ipv4_dst": "10.0.0.2",
@@ -142,7 +142,7 @@ def S2toS3():
                           "name": "S2h3toh2allowupper",
                           "cookie": "0",
                           "priority": "1",
-                          "in_port": "2",
+                          "in_port": "3",
                           "eth_type": "0x800",
                           "ipv4_src": "10.0.0.3",
                           "ipv4_dst": "10.0.0.2",
@@ -162,7 +162,7 @@ def S2toS3():
                         "name": "S3h2toh3blockall",
                         "cookie": "0",
                         "priority": "2",
-                        "in_port": "2",
+                        "in_port": "3",
                         "eth_type": "0x800",
                         "ipv4_src": "10.0.0.2",
                         "ipv4_dst": "10.0.0.3",
@@ -174,7 +174,7 @@ def S2toS3():
                           "name": "S3h2toh3allowlower",
                           "cookie": "0",
                           "priority": "1",
-                          "in_port": "2",
+                          "in_port": "3",
                           "eth_type": "0x800",
                           "ipv4_src": "10.0.0.2",
                           "ipv4_dst": "10.0.0.3",
@@ -187,7 +187,7 @@ def S2toS3():
                           "name": "S3h2toh3allowupper",
                           "cookie": "0",
                           "priority": "1",
-                          "in_port": "2",
+                          "in_port": "3",
                           "eth_type": "0x800",
                           "ipv4_src": "10.0.0.2",
                           "ipv4_dst": "10.0.0.3",
@@ -220,7 +220,7 @@ def S2toS3():
                           "ip_proto": "0x11",
                           "udp_dst": "<1000",
                           "active": "true",
-                          "actions": "output=2"}
+                          "actions": "output=3"}
     # For switch S3, allow UDP from h2 to h3 for port greater than 1100
     S3H3ToH2AllowUpper = {'switch': "00:00:00:00:00:00:00:03",
                           "name": "S3h3toh2allowupper",
@@ -233,7 +233,7 @@ def S2toS3():
                           "ip_proto": "0x11",
                           "udp_dst": ">1100",
                           "active": "true",
-                          "actions": "output=2"}
+                          "actions": "output=3"}
     pusher.set(S3H2ToH3BlockAll)
     pusher.set(S3H2ToH3AllowLower)
     pusher.set(S3H2ToH3AllowUpper)
