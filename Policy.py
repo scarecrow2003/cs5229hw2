@@ -74,7 +74,7 @@ def S1toS2():
 # To insert the policies for the traffic applicable to path between S2 and S3
 def S2toS3():
     # For switch S2, block all UDP from h2 to h3
-    S2H2ToH3BlockAll = {'switch': "00:00:00:00:00:00:00:02",
+    S2H2ToH3AllowAll = {'switch': "00:00:00:00:00:00:00:02",
                         "name": "S2h2toh3blockall",
                         "cookie": "0",
                         "priority": "2",
@@ -85,6 +85,17 @@ def S2toS3():
                         "ip_proto": "0x11",
                         "active": "true",
                         "actions": "output=3"}
+    S2H2ToH3BlockAll = {'switch': "00:00:00:00:00:00:00:02",
+                        "name": "S2h2toh3blockall",
+                        "cookie": "0",
+                        "priority": "3",
+                        "in_port": "1",
+                        "eth_type": "0x800",
+                        "ipv4_src": "10.0.0.2",
+                        "ipv4_dst": "10.0.0.3",
+                        "ip_proto": "0x11",
+                        "active": "true",
+                        "actions": ""}
     # # For switch S2, allow UDP from h2 to h3 for port less than 1000
     # S2H2ToH3AllowLower = {'switch': "00:00:00:00:00:00:00:02",
     #                       "name": "S2h2toh3allowlower",
@@ -116,6 +127,17 @@ def S2toS3():
 
     # For switch S2, block all UDP from h3 to h2
     S2H3ToH2BlockAll = {'switch': "00:00:00:00:00:00:00:02",
+                        "name": "S2h3toh2blockall",
+                        "cookie": "0",
+                        "priority": "3",
+                        "in_port": "3",
+                        "eth_type": "0x800",
+                        "ipv4_src": "10.0.0.3",
+                        "ipv4_dst": "10.0.0.2",
+                        "ip_proto": "0x11",
+                        "active": "true",
+                        "actions": ""}
+    S2H3ToH2AllowAll = {'switch': "00:00:00:00:00:00:00:02",
                         "name": "S2h3toh2blockall",
                         "cookie": "0",
                         "priority": "2",
@@ -152,9 +174,11 @@ def S2toS3():
     #                       "udp_dst": "1010",
     #                       "active": "true",
     #                       "actions": "output=1"}
+    pusher.set(S2H2ToH3AllowAll)
     pusher.set(S2H2ToH3BlockAll)
     # pusher.set(S2H2ToH3AllowLower)
     # pusher.set(S2H2ToH3AllowUpper)
+    pusher.set(S2H3ToH2AllowAll)
     pusher.set(S2H3ToH2BlockAll)
     # pusher.set(S2H3ToH2AllowLower)
     # pusher.set(S2H3ToH2AllowUpper)
