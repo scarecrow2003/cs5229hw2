@@ -95,7 +95,7 @@ def S2toS3():
                           "ipv4_src": "10.0.0.2",
                           "ipv4_dst": "10.0.0.3",
                           "ip_proto": "0x11",
-                          "udp_dst": "<1000",
+                          "udp_dst": "1000",
                           "active": "true",
                           "actions": "output=3"}
     # For switch S2, allow UDP from h2 to h3 for port greater than 1100
