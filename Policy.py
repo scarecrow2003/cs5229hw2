@@ -95,7 +95,8 @@ def S2toS3():
                           "ipv4_src": "10.0.0.2",
                           "ipv4_dst": "10.0.0.3",
                           "ip_proto": "0x11",
-                          "udp_dst": "0x03e8/0xfff8",
+                          # "udp_dst": "0x03e8/0xfff8",
+                          "udp_dst": "1000",
                           "active": "true",
                           "actions": "output=3"}
     # For switch S2, allow UDP from h2 to h3 for port greater than 1100
@@ -108,7 +109,8 @@ def S2toS3():
                           "ipv4_src": "10.0.0.2",
                           "ipv4_dst": "10.0.0.3",
                           "ip_proto": "0x11",
-                          "udp_dst": ">1100",
+                          # "udp_dst": ">1100",
+                          "udp_dst": "1010",
                           "active": "true",
                           "actions": "output=3"}
 
@@ -134,7 +136,7 @@ def S2toS3():
                           "ipv4_src": "10.0.0.3",
                           "ipv4_dst": "10.0.0.2",
                           "ip_proto": "0x11",
-                          "udp_dst": "<1000",
+                          "udp_dst": "1000",
                           "active": "true",
                           "actions": "output=1"}
     # For switch S2, allow UDP from h2 to h3 for port greater than 1100
@@ -147,7 +149,7 @@ def S2toS3():
                           "ipv4_src": "10.0.0.3",
                           "ipv4_dst": "10.0.0.2",
                           "ip_proto": "0x11",
-                          "udp_dst": ">1100",
+                          "udp_dst": "1010",
                           "active": "true",
                           "actions": "output=1"}
     pusher.set(S2H2ToH3BlockAll)
