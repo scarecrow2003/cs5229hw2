@@ -83,7 +83,7 @@ def S2toS3():
                         "ipv4_src": "10.0.0.2",
                         "ipv4_dst": "10.0.0.3",
                         "ip_proto": "0x11",
-                        "udp_dst": "1000/9900",
+                        "udp_dst": "0x03e8/0xfff8",
                         "active": "true",
                         "actions": ""}
     # For switch S2, allow UDP from h2 to h3 for port less than 1000
@@ -125,7 +125,7 @@ def S2toS3():
                         "ipv4_src": "10.0.0.3",
                         "ipv4_dst": "10.0.0.2",
                         "ip_proto": "0x11",
-                        "udp_dst": "1000/9900",
+                        "udp_dst": "0x03e8/0xfff8",
                         "active": "true",
                         "actions": ""}
     # For switch S2, allow UDP from h2 to h3 for port less than 1000
@@ -171,7 +171,7 @@ def S2toS3():
                         "ipv4_src": "10.0.0.2",
                         "ipv4_dst": "10.0.0.3",
                         "ip_proto": "0x11",
-                        "udp_dst": "1000/9900",
+                        "udp_dst": "0x03e8/0xfff8",
                         "active": "true",
                         "actions": ""}
     # For switch S3, allow UDP from h2 to h3 for port less than 1000
@@ -211,7 +211,7 @@ def S2toS3():
                         "ipv4_src": "10.0.0.3",
                         "ipv4_dst": "10.0.0.2",
                         "ip_proto": "0x11",
-                        "udp_dst": "1000/9900",
+                        "udp_dst": "0x03e8/0xfff8",
                         "active": "true",
                         "actions": ""}
     # For switch S3, allow UDP from h2 to h3 for port less than 1000
