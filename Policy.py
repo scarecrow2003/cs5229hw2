@@ -30,7 +30,6 @@ class flowStat(object):
         response = conn.getresponse()
         ret = (response.status, response.reason, response.read())
         conn.close()
-        print ret
         return ret
 
 class StaticFlowPusher(object):
@@ -464,7 +463,6 @@ def S1toS3():
 
     pusher.set(S1H1ToH3Limit)
     pusher.set(S3H1ToH3Limit)
-    flowget.get("00:00:00:00:00:00:00:02")
 
 
 def staticForwarding():
