@@ -448,7 +448,7 @@ def S1toS3():
                      "ipv4_src": "10.0.0.1",
                      "ipv4_dst": "10.0.0.3",
                      "active": "true",
-                     "instruction_goto_meter": "1"}
+                     "instruction_goto_meter": "0"}
     # For switch S3
     S3H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:03",
                      "name": "S3h1toh3limit",
@@ -459,7 +459,7 @@ def S1toS3():
                      "ipv4_src": "10.0.0.1",
                      "ipv4_dst": "10.0.0.3",
                      "active": "true",
-                     "instruction_goto_meter": "1"}
+                     "instruction_goto_meter": "0"}
 
     pusher.set(S1H1ToH3Limit)
     pusher.set(S3H1ToH3Limit)
@@ -536,4 +536,5 @@ if __name__ == '__main__':
     S1toS2()
     S2toS3()
     S1toS3()
+    flowStat.get("S1")
     pass
