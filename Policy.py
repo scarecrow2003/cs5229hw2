@@ -80,17 +80,6 @@ def S1toS2():
                      "ipv4_dst": "10.0.0.2",
                      "active": "true",
                      "actions": "set_queue=1,output=2"}
-    # For switch S1, use q1, which limits to 1Mbps, to limit the traffic from h2 to h1
-    S1H2ToH1Limit = {'switch': "00:00:00:00:00:00:00:01",
-                     "name": "S1h2toh1limit",
-                     "cookie": "0",
-                     "priority": "2",
-                     "in_port": "2",
-                     "eth_type": "0x800",
-                     "ipv4_src": "10.0.0.2",
-                     "ipv4_dst": "10.0.0.1",
-                     "active": "true",
-                     "actions": "set_queue=1,output=1"}
     # For switch S2, use q1, which limits to 1Mbps, to limit the traffic from h1 to h2
     S2H1ToH2Limit = {'switch': "00:00:00:00:00:00:00:02",
                      "name": "S2h1toh2limit",
@@ -102,21 +91,8 @@ def S1toS2():
                      "ipv4_dst": "10.0.0.2",
                      "active": "true",
                      "actions": "set_queue=1,output=1"}
-    # For switch S2, use q1, which limits to 1Mbps, to limit the traffic from h2 to h1
-    S2H2ToH1Limit = {'switch': "00:00:00:00:00:00:00:02",
-                     "name": "S2h2toh1limit",
-                     "cookie": "0",
-                     "priority": "2",
-                     "in_port": "1",
-                     "eth_type": "0x800",
-                     "ipv4_src": "10.0.0.2",
-                     "ipv4_dst": "10.0.0.1",
-                     "active": "true",
-                     "actions": "set_queue=1,output=2"}
     pusher.set(S1H1ToH2Limit)
-    pusher.set(S1H2ToH1Limit)
     pusher.set(S2H1ToH2Limit)
-    pusher.set(S2H2ToH1Limit)
 
 # To insert the policies for the traffic applicable to path between S2 and S3
 def S2toS3():
@@ -462,7 +438,31 @@ def S2toS3():
 
 # To insert the policies for the traffic applicable to path between S1 and S3
 def S1toS3():
-    pass
+    # For switch S1
+    S1H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:01",
+                     "name": "S1h1toh3limit",
+                     "cookie": "0",
+                     "priority": "2",
+                     "in_port": "1",
+                     "eth_type": "0x800",
+                     "ipv4_src": "10.0.0.1",
+                     "ipv4_dst": "10.0.0.3",
+                     "active": "true",
+                     "instruction_goto_meter": "1"}
+    # For switch S3
+    S3H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:03",
+                     "name": "S3h1toh3limit",
+                     "cookie": "0",
+                     "priority": "2",
+                     "in_port": "2",
+                     "eth_type": "0x800",
+                     "ipv4_src": "10.0.0.1",
+                     "ipv4_dst": "10.0.0.3",
+                     "active": "true",
+                     "instruction_goto_meter": "1"}
+
+    pusher.set(S1H1ToH3Limit)
+    pusher.set(S3H1ToH3Limit)
 
 
 def staticForwarding():
