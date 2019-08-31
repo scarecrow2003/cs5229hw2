@@ -30,6 +30,7 @@ class flowStat(object):
         response = conn.getresponse()
         ret = (response.status, response.reason, response.read())
         conn.close()
+        print ret
         return ret
 
 class StaticFlowPusher(object):
