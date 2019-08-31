@@ -451,7 +451,7 @@ def S1toS3():
                      "ipv4_src": "10.0.0.1",
                      "ipv4_dst": "10.0.0.3",
                      "active": "true",
-                     "instruction_stat_trigger": n}
+                     "instruction_stat_trigger": m}
     # For switch S3
     S3H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:03",
                      "name": "S3h1toh3limit",
@@ -462,7 +462,7 @@ def S1toS3():
                      "ipv4_src": "10.0.0.1",
                      "ipv4_dst": "10.0.0.3",
                      "active": "true",
-                     "instruction_stat_trigger": n}
+                     "instruction_stat_trigger": m}
 
     pusher.set(S1H1ToH3Limit)
     pusher.set(S3H1ToH3Limit)
