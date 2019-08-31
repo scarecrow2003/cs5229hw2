@@ -464,7 +464,7 @@ def S1toS3():
 
     pusher.set(S1H1ToH3Limit)
     pusher.set(S3H1ToH3Limit)
-    flowget.get("S1")
+    flowget.get("00:00:00:00:00:00:00:02")
 
 
 def staticForwarding():
