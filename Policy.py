@@ -463,7 +463,7 @@ def S1toS3():
 
     pusher.set(S1H1ToH3Limit)
     pusher.set(S3H1ToH3Limit)
-    flowStat.get("S1")
+    flowget.get("S1")
 
 
 def staticForwarding():
