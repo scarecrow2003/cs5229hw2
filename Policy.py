@@ -512,9 +512,10 @@ def S1toS3():
         for i in range(policy_count):
             policy = response['flows'][i]
             policy_match = policy['match']
-            if policy_match['eth_type'] == '0x0x800' and policy_match['ip_proto'] == '0x6' \
-                    and policy_match['tcp_dst'] == '80' and policy_match['ipv4_src'] == '10.0.0.1' \
-                    and policy_match['ipv4_dst'] == '10.0.0.3' and policy_match['in_port'] == 1:
+            if 'eth_type' in policy_match and policy_match['eth_type'] == '0x0x800' and 'ip_proto' in policy_match \
+                    and policy_match['ip_proto'] == '0x6' and 'tcp_dst' in policy_match and policy_match['tcp_dst'] == '80' \
+                    and 'ipv4_src' in policy_match and policy_match['ipv4_src'] == '10.0.0.1' and 'ipv4_dst' in policy_match \
+                    and policy_match['ipv4_dst'] == '10.0.0.3' and 'in_port' in policy_match and policy_match['in_port'] == 1:
                 byte_count = policy['bytecount']
                 if byte_count > current:
                     if limited:
