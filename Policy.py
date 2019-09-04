@@ -499,7 +499,7 @@ def S1toS3():
 
     pusher.set(S1H1ToH3Limit1M)
     pusher.set(S3H1ToH3Limit1M)
-
+    time.sleep(18)
     limited = False
     current = 0
     ten = 10 * 1024 * 1024
@@ -528,6 +528,7 @@ def S1toS3():
                     limited = not limited
                     time.sleep(18)
                 break
+        time.sleep(1)
 
 
 def staticForwarding():
