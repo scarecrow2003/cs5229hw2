@@ -499,12 +499,12 @@ def S1toS3():
 
     pusher.set(S1H1ToH3Limit1M)
     pusher.set(S3H1ToH3Limit1M)
-    time.sleep(18)
+
     limited = False
-    current = 0
+    current_limit = 0
     ten = 10 * 1024 * 1024
     twenty = 2 * ten
-    current += twenty
+    current_limit += twenty
     while True:
         response = flowget.get("00:00:00:00:00:00:00:01")
         policy_count = len(response['flows'])
@@ -516,19 +516,25 @@ def S1toS3():
                     and 'ipv4_src' in policy_match and policy_match['ipv4_src'] == '10.0.0.1' and 'ipv4_dst' in policy_match \
                     and policy_match['ipv4_dst'] == '10.0.0.3' and 'in_port' in policy_match and policy_match['in_port'] == 1:
                 byte_count = policy['bytecount']
-                if byte_count > current:
+                bit_count = byte_count * 8
+                if bit_count > current_limit:
                     if limited:
                         pusher.set(S1H1ToH3Limit1M)
                         pusher.set(S3H1ToH3Limit1M)
-                        current += twenty
+                        current_limit += twenty
                     else:
                         pusher.set(S1H1ToH3Limit512K)
                         pusher.set(S3H1ToH3Limit1512K)
-                        current += ten
+                        current_limit += ten
                     limited = not limited
                     time.sleep(18)
+                else:
+                    remaining = current_limit - bit_count
+                    remaining_time = remaining / (512 * 1024)
+                    if not limited:
+                        remaining_time /= 2
+                    time.sleep(remaining_time - 2)
                 break
-        time.sleep(1)
 
 
 def staticForwarding():
