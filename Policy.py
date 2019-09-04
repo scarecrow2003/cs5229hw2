@@ -512,6 +512,19 @@ def S1toS3():
         for i in range(policy_count):
             policy = response['flows'][i]
             policy_match = policy['match']
+            if 'eth_type' in policy_match and policy_match['eth_type'] == '0x0x800':
+                print "eth_type match"
+                if 'ip_proto' in policy_match and policy_match['ip_proto'] == '0x6':
+                    print "in_proto match"
+                    if 'tcp_dst' in policy_match and policy_match['tcp_dst'] == '80':
+                        print "tcp_dst match"
+                        if 'ipv4_src' in policy_match and policy_match['ipv4_src'] == '10.0.0.1':
+                            print "ipv4_src match"
+                            if 'ipv4_dst' in policy_match and policy_match['ipv4_dst'] == '10.0.0.3':
+                                print "ipv4_dst match"
+                                if 'in_port' in policy_match and policy_match['in_port'] == 1:
+                                    print "in_port match"
+
             if 'eth_type' in policy_match and policy_match['eth_type'] == '0x0x800' and 'ip_proto' in policy_match \
                     and policy_match['ip_proto'] == '0x6' and 'tcp_dst' in policy_match and policy_match['tcp_dst'] == '80' \
                     and 'ipv4_src' in policy_match and policy_match['ipv4_src'] == '10.0.0.1' and 'ipv4_dst' in policy_match \
