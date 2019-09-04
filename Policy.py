@@ -531,6 +531,7 @@ def S1toS3():
                     limited = not limited
                     time.sleep(18)
                 else:
+                    print "wait for more traffic"
                     remaining = current_limit - bit_count
                     remaining_time = remaining / (512 * 1024)
                     if not limited:
