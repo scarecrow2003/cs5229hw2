@@ -516,6 +516,7 @@ def S1toS3():
                     and policy_match['ip_proto'] == '0x6' and 'tcp_dst' in policy_match and policy_match['tcp_dst'] == '80' \
                     and 'ipv4_src' in policy_match and policy_match['ipv4_src'] == '10.0.0.1' and 'ipv4_dst' in policy_match \
                     and policy_match['ipv4_dst'] == '10.0.0.3' and 'in_port' in policy_match and policy_match['in_port'] == 1:
+                print "find matching policy"
                 byte_count = policy['bytecount']
                 bit_count = byte_count * 8
                 if bit_count > current_limit:
@@ -540,6 +541,8 @@ def S1toS3():
                     if remaining_time - 2 > 0:
                         time.sleep(remaining_time - 2)
                 break
+            else:
+                time.sleep(1)
 
 
 def staticForwarding():
