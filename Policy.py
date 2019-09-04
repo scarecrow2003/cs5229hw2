@@ -507,6 +507,7 @@ def S1toS3():
     current += twenty
     while True:
         response = flowget.get("00:00:00:00:00:00:00:01")
+        print response
         policy_count = len(response['flows'])
         for i in range(policy_count):
             policy = response['flows'][i]
