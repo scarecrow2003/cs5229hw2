@@ -500,15 +500,14 @@ def S1toS3():
     pusher.set(S1H1ToH3Limit1M)
     pusher.set(S3H1ToH3Limit1M)
 
-    limited = False
-    current_limit = 0
+    limited = False  # Set to True when limited to 512Kbps, False when limite to 1Mbps
+    current_limit = 0  # current limit that when bit count reaches to switch policy
     ten = 10 * 1024 * 1024
     twenty = 2 * ten
     current_limit += twenty
     while True:
         response = flowget.get("00:00:00:00:00:00:00:01")
         policy_count = len(response['flows'])
-        print "policy_count: " + str(policy_count)
         for i in range(policy_count):
             policy = response['flows'][i]
             policy_match = policy['match']
@@ -517,10 +516,10 @@ def S1toS3():
                     and 'ipv4_src' in policy_match and policy_match['ipv4_src'] == '10.0.0.1' and 'ipv4_dst' in policy_match \
                     and policy_match['ipv4_dst'] == '10.0.0.3' and 'in_port' in policy_match and policy_match['in_port'] == '1':
                 print "find matching policy"
-                print policy
                 byte_count = policy['byteCount']
                 bit_count = int(byte_count) * 8
                 if bit_count > current_limit:
+                    # if bit count is greater than current limit, we switch policy and increase the current_limit
                     if limited:
                         print "set to 1Mbps limit"
                         pusher.set(S1H1ToH3Limit1M)
@@ -532,8 +531,12 @@ def S1toS3():
                         pusher.set(S3H1ToH3Limit1512K)
                         current_limit += ten
                     limited = not limited
+                    # since the traffic is rate limited, it needs 20 second to reach the next limit if it run in full
+                    # speed, so we can sleep at least 20 second to do the next query. to play safe, we sleep 18 seconds
                     time.sleep(18)
                 else:
+                    # if bit count is less than current limit, we sleep to wait for more traffic. the time to sleep is
+                    # calculated based on remaining bit and traffic speed. to play safe, we sleep 2 second less
                     print "wait for more traffic"
                     remaining = current_limit - bit_count
                     remaining_time = remaining / (512 * 1024)
@@ -543,6 +546,7 @@ def S1toS3():
                         time.sleep(remaining_time - 2)
                 break
             else:
+                # if there is no matching policy found, we wait for 1 second to query again
                 time.sleep(1)
 
 
