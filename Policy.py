@@ -519,10 +519,12 @@ def S1toS3():
                 bit_count = byte_count * 8
                 if bit_count > current_limit:
                     if limited:
+                        print "set to 1Mbps limit"
                         pusher.set(S1H1ToH3Limit1M)
                         pusher.set(S3H1ToH3Limit1M)
                         current_limit += twenty
                     else:
+                        print "set to 512Kbps limit"
                         pusher.set(S1H1ToH3Limit512K)
                         pusher.set(S3H1ToH3Limit1512K)
                         current_limit += ten
