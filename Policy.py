@@ -439,31 +439,33 @@ def S2toS3():
 # To insert the policies for the traffic applicable to path between S1 and S3
 def S1toS3():
 
-    # For switch S1
-    S1H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:01",
-                     "name": "S1h1toh3limit",
-                     "cookie": "0",
-                     "priority": "2",
-                     "in_port": "1",
-                     "eth_type": "0x800",
-                     "ipv4_src": "10.0.0.1",
-                     "ipv4_dst": "10.0.0.3",
-                     "active": "true",
-                     "instruction_goto_meter": "0"}
-    # For switch S3
-    S3H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:03",
-                     "name": "S3h1toh3limit",
-                     "cookie": "0",
-                     "priority": "2",
-                     "in_port": "2",
-                     "eth_type": "0x800",
-                     "ipv4_src": "10.0.0.1",
-                     "ipv4_dst": "10.0.0.3",
-                     "active": "true",
-                     "instruction_goto_meter": "0"}
+    print flowget.get("00:00:00:00:00:00:00:01")
 
-    pusher.set(S1H1ToH3Limit)
-    pusher.set(S3H1ToH3Limit)
+    # For switch S1
+    # S1H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:01",
+    #                  "name": "S1h1toh3limit",
+    #                  "cookie": "0",
+    #                  "priority": "2",
+    #                  "in_port": "1",
+    #                  "eth_type": "0x800",
+    #                  "ipv4_src": "10.0.0.1",
+    #                  "ipv4_dst": "10.0.0.3",
+    #                  "active": "true",
+    #                  "instruction_goto_meter": "0"}
+    # # For switch S3
+    # S3H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:03",
+    #                  "name": "S3h1toh3limit",
+    #                  "cookie": "0",
+    #                  "priority": "2",
+    #                  "in_port": "2",
+    #                  "eth_type": "0x800",
+    #                  "ipv4_src": "10.0.0.1",
+    #                  "ipv4_dst": "10.0.0.3",
+    #                  "active": "true",
+    #                  "instruction_goto_meter": "0"}
+    #
+    # pusher.set(S1H1ToH3Limit)
+    # pusher.set(S3H1ToH3Limit)
 
 
 def staticForwarding():
