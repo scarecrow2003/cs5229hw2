@@ -534,7 +534,7 @@ def S1toS3():
                 print "find matching policy"
                 print policy
                 byte_count = policy['byteCount']
-                bit_count = byte_count * 8
+                bit_count = int(byte_count) * 8
                 if bit_count > current_limit:
                     if limited:
                         print "set to 1Mbps limit"
