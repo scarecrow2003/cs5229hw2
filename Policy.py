@@ -7,6 +7,7 @@ Date :
 
 import httplib
 import json
+import time
 
 
 class flowStat(object):
@@ -18,19 +19,20 @@ class flowStat(object):
         return json.loads(ret[2])
 
     def rest_call(self, data, action, switch):
-        path = '/wm/core/switch/'+switch+"/flow/json"
+        path = '/wm/core/switch/' + switch + "/flow/json"
         headers = {
             'Content-type': 'application/json',
             'Accept': 'application/json',
-            }
+        }
         body = json.dumps(data)
         conn = httplib.HTTPConnection(self.server, 8080)
-        #print path
+        # print path
         conn.request(action, path, body, headers)
         response = conn.getresponse()
         ret = (response.status, response.reason, response.read())
         conn.close()
         return ret
+
 
 class StaticFlowPusher(object):
     def __init__(self, server):
@@ -67,6 +69,7 @@ class StaticFlowPusher(object):
 pusher = StaticFlowPusher('127.0.0.1')
 flowget = flowStat('127.0.0.1')
 
+
 # To insert the policies for the traffic applicable to path between S1 and S2
 def S1toS2():
     # For switch S1, use q1, which limits to 1Mbps, to limit the traffic from h1 to h2
@@ -94,21 +97,22 @@ def S1toS2():
     pusher.set(S1H1ToH2Limit)
     pusher.set(S2H1ToH2Limit)
 
+
 # To insert the policies for the traffic applicable to path between S2 and S3
 def S2toS3():
     # For switch S2, block traffic from h2 to h3 for UDP port 1000 ~ 1007
     S2H2ToH3Block1 = {'switch': "00:00:00:00:00:00:00:02",
-                        "name": "S2h2toh3block1",
-                        "cookie": "0",
-                        "priority": "2",
-                        "in_port": "1",
-                        "eth_type": "0x800",
-                        "ipv4_src": "10.0.0.2",
-                        "ipv4_dst": "10.0.0.3",
-                        "ip_proto": "0x11",
-                        "udp_dst": "0x03e8/0xfff8",
-                        "active": "true",
-                        "actions": ""}
+                      "name": "S2h2toh3block1",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "1",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x03e8/0xfff8",
+                      "active": "true",
+                      "actions": ""}
     # For switch S2, block traffic from h2 to h3 for UDP port 1008 ~ 1023
     S2H2ToH3Block2 = {'switch': "00:00:00:00:00:00:00:02",
                       "name": "S2h2toh3block2",
@@ -177,17 +181,17 @@ def S2toS3():
 
     # For switch S2, block traffic from h3 to h2 for UDP port 1000 ~1007
     S2H3ToH2Block1 = {'switch': "00:00:00:00:00:00:00:02",
-                        "name": "S2h3toh2block1",
-                        "cookie": "0",
-                        "priority": "2",
-                        "in_port": "3",
-                        "eth_type": "0x800",
-                        "ipv4_src": "10.0.0.3",
-                        "ipv4_dst": "10.0.0.2",
-                        "ip_proto": "0x11",
-                        "udp_dst": "0x03e8/0xfff8",
-                        "active": "true",
-                        "actions": ""}
+                      "name": "S2h3toh2block1",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.3",
+                      "ipv4_dst": "10.0.0.2",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x03e8/0xfff8",
+                      "active": "true",
+                      "actions": ""}
     # For switch S2, block traffic from h3 to h2 for UDP port 1008 ~1023
     S2H3ToH2Block2 = {'switch': "00:00:00:00:00:00:00:02",
                       "name": "S2h3toh2block2",
@@ -268,17 +272,17 @@ def S2toS3():
 
     # For switch S3, block traffic from h2 to h3 for UDP port 1000 ~ 1007
     S3H2ToH3Block1 = {'switch': "00:00:00:00:00:00:00:03",
-                        "name": "S3h2toh3block1",
-                        "cookie": "0",
-                        "priority": "2",
-                        "in_port": "3",
-                        "eth_type": "0x800",
-                        "ipv4_src": "10.0.0.2",
-                        "ipv4_dst": "10.0.0.3",
-                        "ip_proto": "0x11",
-                        "udp_dst": "0x03e8/0xfff8",
-                        "active": "true",
-                        "actions": ""}
+                      "name": "S3h2toh3block1",
+                      "cookie": "0",
+                      "priority": "2",
+                      "in_port": "3",
+                      "eth_type": "0x800",
+                      "ipv4_src": "10.0.0.2",
+                      "ipv4_dst": "10.0.0.3",
+                      "ip_proto": "0x11",
+                      "udp_dst": "0x03e8/0xfff8",
+                      "active": "true",
+                      "actions": ""}
     # For switch S3, block traffic from h2 to h3 for UDP port 1008 ~ 1023
     S3H2ToH3Block2 = {'switch': "00:00:00:00:00:00:00:03",
                       "name": "S3h2toh3block2",
@@ -436,39 +440,93 @@ def S2toS3():
     pusher.set(S3H3ToH2Block5)
     pusher.set(S3H3ToH2Block6)
 
+
 # To insert the policies for the traffic applicable to path between S1 and S3
 def S1toS3():
+    # For switch S1, limit the traffic to 1Mbps for http
+    S1H1ToH3Limit1M = {'switch': "00:00:00:00:00:00:00:01",
+                       "name": "S1h1toh3limit1m",
+                       "cookie": "0",
+                       "priority": "2",
+                       "in_port": "1",
+                       "eth_type": "0x800",
+                       "ipv4_src": "10.0.0.1",
+                       "ipv4_dst": "10.0.0.3",
+                       "ip_proto": "0x06",
+                       "tcp_dst": "80",
+                       "active": "true",
+                       "actions": "set_queue=1,output=3"}
+    # For switch S3, limit the traffic to 1Mbps for http
+    S3H1ToH3Limit1M = {'switch': "00:00:00:00:00:00:00:03",
+                       "name": "S3h1toh3limit1m",
+                       "cookie": "0",
+                       "priority": "2",
+                       "in_port": "2",
+                       "eth_type": "0x800",
+                       "ipv4_src": "10.0.0.1",
+                       "ipv4_dst": "10.0.0.3",
+                       "ip_proto": "0x06",
+                       "tcp_dst": "80",
+                       "active": "true",
+                       "actions": "set_queue=1,output=1"}
 
-    response = flowget.get("00:00:00:00:00:00:00:01")
-    print response.flows
-    print "***"
-    print response['flows']
+    # For switch S1, limit the traffic to 512Kbps for http
+    S1H1ToH3Limit512K = {'switch': "00:00:00:00:00:00:00:01",
+                         "name": "S1h1toh3limit512k",
+                         "cookie": "0",
+                         "priority": "2",
+                         "in_port": "1",
+                         "eth_type": "0x800",
+                         "ipv4_src": "10.0.0.1",
+                         "ipv4_dst": "10.0.0.3",
+                         "ip_proto": "0x06",
+                         "tcp_dst": "80",
+                         "active": "true",
+                         "actions": "set_queue=2,output=3"}
+    # For switch S3, limit the traffic to 512KMbps for http
+    S3H1ToH3Limit1512K = {'switch': "00:00:00:00:00:00:00:03",
+                          "name": "S3h1toh3limit512k",
+                          "cookie": "0",
+                          "priority": "2",
+                          "in_port": "2",
+                          "eth_type": "0x800",
+                          "ipv4_src": "10.0.0.1",
+                          "ipv4_dst": "10.0.0.3",
+                          "ip_proto": "0x06",
+                          "tcp_dst": "80",
+                          "active": "true",
+                          "actions": "set_queue=2,output=1"}
 
-    # For switch S1
-    # S1H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:01",
-    #                  "name": "S1h1toh3limit",
-    #                  "cookie": "0",
-    #                  "priority": "2",
-    #                  "in_port": "1",
-    #                  "eth_type": "0x800",
-    #                  "ipv4_src": "10.0.0.1",
-    #                  "ipv4_dst": "10.0.0.3",
-    #                  "active": "true",
-    #                  "instruction_goto_meter": "0"}
-    # # For switch S3
-    # S3H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:03",
-    #                  "name": "S3h1toh3limit",
-    #                  "cookie": "0",
-    #                  "priority": "2",
-    #                  "in_port": "2",
-    #                  "eth_type": "0x800",
-    #                  "ipv4_src": "10.0.0.1",
-    #                  "ipv4_dst": "10.0.0.3",
-    #                  "active": "true",
-    #                  "instruction_goto_meter": "0"}
-    #
-    # pusher.set(S1H1ToH3Limit)
-    # pusher.set(S3H1ToH3Limit)
+    pusher.set(S1H1ToH3Limit1M)
+    pusher.set(S3H1ToH3Limit1M)
+
+    limited = False
+    current = 0
+    ten = 10 * 1024 * 1024
+    twenty = 2 * ten
+    current += twenty
+    while True:
+        response = flowget.get("00:00:00:00:00:00:00:01")
+        policy_count = len(response['flows'])
+        for i in range(policy_count):
+            policy = response['flows'][i]
+            policy_match = policy['match']
+            if policy_match['eth_type'] == '0x800' and policy_match['ip_proto'] == '0x06' \
+                    and policy_match['tcp_dst'] == '80' and policy_match['ipv4_src'] == '10.0.0.1' \
+                    and policy_match['ipv4_dst'] == '10.0.0.3' and policy_match['in_port'] == 1:
+                byte_count = policy['bytecount']
+                if byte_count > current:
+                    if limited:
+                        pusher.set(S1H1ToH3Limit1M)
+                        pusher.set(S3H1ToH3Limit1M)
+                        current += twenty
+                    else:
+                        pusher.set(S1H1ToH3Limit512K)
+                        pusher.set(S3H1ToH3Limit1512K)
+                        current += ten
+                    limited = not limited
+                    time.sleep(18)
+                break
 
 
 def staticForwarding():
