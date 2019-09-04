@@ -533,7 +533,8 @@ def S1toS3():
                     remaining_time = remaining / (512 * 1024)
                     if not limited:
                         remaining_time /= 2
-                    time.sleep(remaining_time - 2)
+                    if remaining_time - 2 > 0:
+                        time.sleep(remaining_time - 2)
                 break
 
 
