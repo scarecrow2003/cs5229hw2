@@ -522,15 +522,15 @@ def S1toS3():
                             print "ipv4_src match"
                             if 'ipv4_dst' in policy_match and policy_match['ipv4_dst'] == '10.0.0.3':
                                 print "ipv4_dst match"
-                                if 'in_port' in policy_match and policy_match['in_port'] == 1:
+                                if 'in_port' in policy_match and policy_match['in_port'] == '1':
                                     print "in_port match"
-            else:
-                print policy_match['eth_type']
+                                else:
+                                    print policy_match['in_port']
 
             if 'eth_type' in policy_match and policy_match['eth_type'] == '0x0x800' and 'ip_proto' in policy_match \
                     and policy_match['ip_proto'] == '0x6' and 'tcp_dst' in policy_match and policy_match['tcp_dst'] == '80' \
                     and 'ipv4_src' in policy_match and policy_match['ipv4_src'] == '10.0.0.1' and 'ipv4_dst' in policy_match \
-                    and policy_match['ipv4_dst'] == '10.0.0.3' and 'in_port' in policy_match and policy_match['in_port'] == 1:
+                    and policy_match['ipv4_dst'] == '10.0.0.3' and 'in_port' in policy_match and policy_match['in_port'] == '1':
                 print "find matching policy"
                 byte_count = policy['bytecount']
                 bit_count = byte_count * 8
