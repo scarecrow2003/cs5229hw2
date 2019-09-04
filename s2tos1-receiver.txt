@@ -1,0 +1,23 @@
+-----------------------------------------------------------
+Server listening on 1000
+-----------------------------------------------------------
+Accepted connection from 10.0.0.2, port 57034
+[ 21] local 10.0.0.1 port 1000 connected to 10.0.0.2 port 33564
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 21]   0.00-1.00   sec   120 KBytes   983 Kbits/sec  0.064 ms  0/15 (0%)  
+[ 21]   1.00-2.00   sec   128 KBytes  1.05 Mbits/sec  0.065 ms  0/16 (0%)  
+[ 21]   2.00-3.00   sec   128 KBytes  1.05 Mbits/sec  0.063 ms  0/16 (0%)  
+[ 21]   3.00-4.00   sec   128 KBytes  1.05 Mbits/sec  0.063 ms  0/16 (0%)  
+[ 21]   4.00-5.00   sec   128 KBytes  1.05 Mbits/sec  0.077 ms  0/16 (0%)  
+[ 21]   5.00-6.00   sec   128 KBytes  1.05 Mbits/sec  0.063 ms  0/16 (0%)  
+[ 21]   6.00-7.00   sec   128 KBytes  1.05 Mbits/sec  0.058 ms  0/16 (0%)  
+[ 21]   7.00-8.00   sec   128 KBytes  1.05 Mbits/sec  0.055 ms  0/16 (0%)  
+[ 21]   8.00-9.00   sec   128 KBytes  1.05 Mbits/sec  0.050 ms  0/16 (0%)  
+[ 21]   9.00-10.00  sec   128 KBytes  1.05 Mbits/sec  0.055 ms  0/16 (0%)  
+[ 21]  10.00-10.04  sec  0.00 Bytes  0.00 bits/sec  0.055 ms  0/0 (-nan%)  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 21]   0.00-10.04  sec  1.24 MBytes  1.04 Mbits/sec  0.055 ms  0/159 (0%)  
+-----------------------------------------------------------
+Server listening on 1000
+-----------------------------------------------------------
