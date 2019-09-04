@@ -439,7 +439,10 @@ def S2toS3():
 # To insert the policies for the traffic applicable to path between S1 and S3
 def S1toS3():
 
-    print flowget.get("00:00:00:00:00:00:00:01")
+    response = flowget.get("00:00:00:00:00:00:00:01")
+    print response.flows
+    print "***"
+    print response['flows']
 
     # For switch S1
     # S1H1ToH3Limit = {'switch': "00:00:00:00:00:00:00:01",
