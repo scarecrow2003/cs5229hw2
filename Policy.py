@@ -532,6 +532,7 @@ def S1toS3():
                     and 'ipv4_src' in policy_match and policy_match['ipv4_src'] == '10.0.0.1' and 'ipv4_dst' in policy_match \
                     and policy_match['ipv4_dst'] == '10.0.0.3' and 'in_port' in policy_match and policy_match['in_port'] == '1':
                 print "find matching policy"
+                print policy
                 byte_count = policy['bytecount']
                 bit_count = byte_count * 8
                 if bit_count > current_limit:
