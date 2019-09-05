@@ -1,5 +1,5 @@
 @Author <Su Zhihua/A0195041L>
-Date :
+Date : 05/09/2019
 
 
 ################################################
@@ -10,16 +10,333 @@ the range of 1000 ~ 1100, the package will be dropped (actions do nothing). Sinc
 we create one rule for every port, there will be 100 rules. So I come out with the bit mask way. It contains 6 rules
 (0x03e8/0xfff8 for port 1000 ~ 1007, 0x03f0/0xfff0 for port 1008 ~ 1023, 0x0400/0xffc0 for port 1024 ~ 1087,
 0x0440/0xfff8 for port 1088 ~ 1095, 0x0448/0xfffc for port 1096 ~ 1099 and port 1100).
-Below shows some iperf3 logs.
+Below shows some iperf3 logs from S2 to S3. The logs from S3 to S2 is similar.
+
+For port 999, which is outside the blocking range, the traffic can pass:
+Connecting to host 10.0.0.3, port 999
+[ 20] local 10.0.0.2 port 38310 connected to 10.0.0.3 port 999
+[ ID] Interval           Transfer     Bandwidth       Total Datagrams
+[ 20]   0.00-1.00   sec   120 KBytes   981 Kbits/sec  15
+[ 20]   1.00-2.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   2.00-3.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   3.00-4.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   4.00-5.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   5.00-6.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   6.00-7.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   7.00-8.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   8.00-9.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   9.00-10.00  sec   128 KBytes  1.05 Mbits/sec  16
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 20]   0.00-10.00  sec  1.24 MBytes  1.04 Mbits/sec  0.843 ms  0/159 (0%)
+[ 20] Sent 159 datagrams
+
+iperf Done.
+
+For port 1101, the traffic can pass:
+Connecting to host 10.0.0.3, port 1101
+[ 20] local 10.0.0.2 port 58673 connected to 10.0.0.3 port 1101
+[ ID] Interval           Transfer     Bandwidth       Total Datagrams
+[ 20]   0.00-1.00   sec   120 KBytes   981 Kbits/sec  15
+[ 20]   1.00-2.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   2.00-3.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   3.00-4.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   4.00-5.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   5.00-6.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   6.00-7.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   7.00-8.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   8.00-9.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   9.00-10.00  sec   128 KBytes  1.05 Mbits/sec  16
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 20]   0.00-10.00  sec  1.24 MBytes  1.04 Mbits/sec  0.918 ms  0/159 (0%)
+[ 20] Sent 159 datagrams
+
+iperf Done.
+
+For port less than 1000 or greater than 1100, the logs are similar to above logs, which can all pass.
+
+For port 1000, the traffic is blocked:
+Connecting to host 10.0.0.3, port 1000
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+
+For port 1050, the traffic is blocked:
+Connecting to host 10.0.0.3, port 1050
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+
+For port 1100, the traffic is blocked:
+Connecting to host 10.0.0.3, port 1100
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+
+For port within the range of 1000 to 1100, the logs are similar to above los, which are all blocked.
 
 
 ################################################
 Policy 2
 ################################################
-<Enter your comments here>
+The policy is configured that for all the traffic from H1 to H2, it will put into queue @1, which is rate limited to 1Mbps.
+The logs are shown below.
+
+H1 as sender. It sends at about 1.04Mbps.
+Connecting to host 10.0.0.2, port 1000
+[ 20] local 10.0.0.1 port 42683 connected to 10.0.0.2 port 1000
+[ ID] Interval           Transfer     Bandwidth       Total Datagrams
+[ 20]   0.00-1.00   sec   120 KBytes   983 Kbits/sec  15
+[ 20]   1.00-2.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   2.00-3.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   3.00-4.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   4.00-5.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   5.00-6.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   6.00-7.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   7.00-8.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   8.00-9.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   9.00-10.00  sec   128 KBytes  1.05 Mbits/sec  16
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 20]   0.00-10.00  sec  1.24 MBytes  1.04 Mbits/sec  46.543 ms  0/159 (0%)
+[ 20] Sent 159 datagrams
+
+iperf Done.
+
+H2 as receiver. It receives at only about 990Kbps.
+-----------------------------------------------------------
+Server listening on 1000
+-----------------------------------------------------------
+Accepted connection from 10.0.0.1, port 33022
+[ 21] local 10.0.0.2 port 1000 connected to 10.0.0.1 port 42683
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 21]   0.00-1.00   sec   112 KBytes   917 Kbits/sec  24.144 ms  0/14 (0%)
+[ 21]   1.00-2.00   sec   120 KBytes   983 Kbits/sec  37.940 ms  0/15 (0%)
+[ 21]   2.00-3.00   sec   128 KBytes  1.05 Mbits/sec  43.227 ms  0/16 (0%)
+[ 21]   3.00-4.00   sec   120 KBytes   983 Kbits/sec  45.641 ms  0/15 (0%)
+[ 21]   4.00-5.00   sec   120 KBytes   982 Kbits/sec  45.017 ms  0/15 (0%)
+[ 21]   5.00-6.00   sec   128 KBytes  1.05 Mbits/sec  45.318 ms  0/16 (0%)
+[ 21]   6.00-7.00   sec   120 KBytes   983 Kbits/sec  46.165 ms  0/15 (0%)
+[ 21]   7.00-8.00   sec   120 KBytes   984 Kbits/sec  46.994 ms  0/15 (0%)
+[ 21]   8.00-9.00   sec   120 KBytes   983 Kbits/sec  45.706 ms  0/15 (0%)
+[ 21]   9.00-10.00  sec   128 KBytes  1.05 Mbits/sec  45.831 ms  0/16 (0%)
+[ 21]  10.00-10.52  sec  56.0 KBytes   882 Kbits/sec  46.543 ms  0/7 (0%)
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 21]   0.00-10.52  sec  1.24 MBytes   990 Kbits/sec  46.543 ms  0/159 (0%)
+-----------------------------------------------------------
+Server listening on 1000
+-----------------------------------------------------------
+
+Now switch sender and receiver.
+H2 as sender. It sends at about 1.04Mbps
+Connecting to host 10.0.0.1, port 1000
+[ 20] local 10.0.0.2 port 33564 connected to 10.0.0.1 port 1000
+[ ID] Interval           Transfer     Bandwidth       Total Datagrams
+[ 20]   0.00-1.00   sec   120 KBytes   982 Kbits/sec  15
+[ 20]   1.00-2.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   2.00-3.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   3.00-4.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   4.00-5.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   5.00-6.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   6.00-7.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   7.00-8.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   8.00-9.00   sec   128 KBytes  1.05 Mbits/sec  16
+[ 20]   9.00-10.00  sec   128 KBytes  1.05 Mbits/sec  16
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 20]   0.00-10.00  sec  1.24 MBytes  1.04 Mbits/sec  0.055 ms  0/159 (0%)
+[ 20] Sent 159 datagrams
+
+iperf Done.
+
+H1 as receiver. It receives at also about 1.04Mbps since H2 to H1 is not rate limited.
+-----------------------------------------------------------
+Server listening on 1000
+-----------------------------------------------------------
+Accepted connection from 10.0.0.2, port 57034
+[ 21] local 10.0.0.1 port 1000 connected to 10.0.0.2 port 33564
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 21]   0.00-1.00   sec   120 KBytes   983 Kbits/sec  0.064 ms  0/15 (0%)
+[ 21]   1.00-2.00   sec   128 KBytes  1.05 Mbits/sec  0.065 ms  0/16 (0%)
+[ 21]   2.00-3.00   sec   128 KBytes  1.05 Mbits/sec  0.063 ms  0/16 (0%)
+[ 21]   3.00-4.00   sec   128 KBytes  1.05 Mbits/sec  0.063 ms  0/16 (0%)
+[ 21]   4.00-5.00   sec   128 KBytes  1.05 Mbits/sec  0.077 ms  0/16 (0%)
+[ 21]   5.00-6.00   sec   128 KBytes  1.05 Mbits/sec  0.063 ms  0/16 (0%)
+[ 21]   6.00-7.00   sec   128 KBytes  1.05 Mbits/sec  0.058 ms  0/16 (0%)
+[ 21]   7.00-8.00   sec   128 KBytes  1.05 Mbits/sec  0.055 ms  0/16 (0%)
+[ 21]   8.00-9.00   sec   128 KBytes  1.05 Mbits/sec  0.050 ms  0/16 (0%)
+[ 21]   9.00-10.00  sec   128 KBytes  1.05 Mbits/sec  0.055 ms  0/16 (0%)
+[ 21]  10.00-10.04  sec  0.00 Bytes  0.00 bits/sec  0.055 ms  0/0 (-nan%)
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Jitter    Lost/Total Datagrams
+[ 21]   0.00-10.04  sec  1.24 MBytes  1.04 Mbits/sec  0.055 ms  0/159 (0%)
+-----------------------------------------------------------
+Server listening on 1000
+-----------------------------------------------------------
+
 
 ################################################
 Policy 3
 ################################################
-<Enter your comments here>
+The policy is set inside a while loop. Inside the while loop, the code will query the switch, if the byte count of the
+policy reaches the limit, it will send a policy to the switch to change the policy and increase the limit.
+The difference of the two policy is inside the action. They will use different queue @1 and @2 to apply different rate limit.
+Between every query, we will set appropriate sleep time according the remaining bit count and rate limit, so that we
+don't send too many query to the switch and make the system unresponsible.
 
+Below shows the log:
+-----------------------------------------------------------
+Server listening on 80
+-----------------------------------------------------------
+Accepted connection from 10.0.0.1, port 34326
+[ 21] local 10.0.0.3 port 80 connected to 10.0.0.1 port 34328
+[ ID] Interval           Transfer     Bandwidth
+[ 21]   0.00-1.04   sec   102 KBytes   800 Kbits/sec
+[ 21]   1.04-2.00   sec   102 KBytes   871 Kbits/sec
+[ 21]   2.00-3.00   sec   116 KBytes   951 Kbits/sec
+[ 21]   3.00-4.00   sec   117 KBytes   961 Kbits/sec
+[ 21]   4.00-5.01   sec   113 KBytes   917 Kbits/sec
+[ 21]   5.01-6.03   sec   113 KBytes   910 Kbits/sec
+[ 21]   6.03-7.01   sec   113 KBytes   949 Kbits/sec
+[ 21]   7.01-8.01   sec   115 KBytes   938 Kbits/sec
+[ 21]   8.01-9.00   sec   116 KBytes   956 Kbits/sec
+[ 21]   9.00-10.00  sec   113 KBytes   927 Kbits/sec
+[ 21]  10.00-11.01  sec   116 KBytes   941 Kbits/sec
+[ 21]  11.01-12.02  sec   110 KBytes   896 Kbits/sec
+[ 21]  12.02-13.03  sec   106 KBytes   857 Kbits/sec
+[ 21]  13.03-14.00  sec   105 KBytes   884 Kbits/sec
+[ 21]  14.00-15.01  sec   107 KBytes   873 Kbits/sec
+[ 21]  15.01-16.02  sec   117 KBytes   956 Kbits/sec
+[ 21]  16.02-17.02  sec   116 KBytes   947 Kbits/sec
+[ 21]  17.02-18.00  sec   113 KBytes   944 Kbits/sec
+[ 21]  18.00-19.02  sec   119 KBytes   957 Kbits/sec
+[ 21]  19.02-20.03  sec   116 KBytes   941 Kbits/sec
+[ 21]  20.03-21.01  sec   115 KBytes   959 Kbits/sec
+[ 21]  21.01-22.00  sec   113 KBytes   928 Kbits/sec
+[ 21]  22.00-23.01  sec   116 KBytes   941 Kbits/sec
+[ 21]  23.01-24.00  sec   113 KBytes   940 Kbits/sec
+[ 21]  24.00-25.00  sec   116 KBytes   950 Kbits/sec
+[ 21]  25.00-26.00  sec   112 KBytes   915 Kbits/sec
+[ 21]  26.00-27.04  sec  99.0 KBytes   778 Kbits/sec
+[ 21]  27.04-28.00  sec  49.5 KBytes   423 Kbits/sec
+[ 21]  28.00-29.03  sec  39.6 KBytes   315 Kbits/sec
+[ 21]  29.03-30.02  sec  35.4 KBytes   293 Kbits/sec
+[ 21]  30.02-31.01  sec  35.4 KBytes   292 Kbits/sec
+[ 21]  31.01-32.00  sec  36.8 KBytes   303 Kbits/sec
+[ 21]  32.00-33.00  sec  38.2 KBytes   314 Kbits/sec
+[ 21]  33.00-34.00  sec  36.8 KBytes   301 Kbits/sec
+[ 21]  34.00-35.00  sec  35.4 KBytes   289 Kbits/sec
+[ 21]  35.00-36.00  sec  39.6 KBytes   325 Kbits/sec
+[ 21]  36.00-37.00  sec  41.0 KBytes   336 Kbits/sec
+[ 21]  37.00-38.00  sec  38.2 KBytes   313 Kbits/sec
+[ 21]  38.00-39.00  sec  39.6 KBytes   324 Kbits/sec
+[ 21]  39.00-40.00  sec  38.2 KBytes   313 Kbits/sec
+[ 21]  40.00-41.00  sec  38.2 KBytes   313 Kbits/sec
+[ 21]  41.00-42.00  sec  39.6 KBytes   324 Kbits/sec
+[ 21]  42.00-43.00  sec  41.0 KBytes   336 Kbits/sec
+[ 21]  43.00-44.00  sec  39.6 KBytes   324 Kbits/sec
+[ 21]  44.00-45.00  sec  38.2 KBytes   313 Kbits/sec
+[ 21]  45.00-46.01  sec  38.2 KBytes   311 Kbits/sec
+[ 21]  46.01-47.00  sec  39.6 KBytes   325 Kbits/sec
+[ 21]  47.00-48.02  sec  41.0 KBytes   330 Kbits/sec
+[ 21]  48.02-49.01  sec  39.6 KBytes   330 Kbits/sec
+[ 21]  49.01-50.01  sec  38.2 KBytes   313 Kbits/sec
+[ 21]  50.01-51.01  sec  66.5 KBytes   542 Kbits/sec
+[ 21]  51.01-52.01  sec  62.2 KBytes   512 Kbits/sec
+[ 21]  52.01-53.00  sec  69.3 KBytes   571 Kbits/sec
+[ 21]  53.00-54.01  sec  72.1 KBytes   587 Kbits/sec
+[ 21]  54.01-55.01  sec  67.9 KBytes   552 Kbits/sec
+[ 21]  55.01-56.00  sec  73.5 KBytes   608 Kbits/sec
+[ 21]  56.00-57.00  sec   550 KBytes  4.53 Mbits/sec
+[ 21]  57.00-58.01  sec   100 KBytes   817 Kbits/sec
+[ 21]  58.01-59.03  sec   110 KBytes   883 Kbits/sec
+[ 21]  59.03-60.01  sec   110 KBytes   925 Kbits/sec
+[ 21]  60.01-61.00  sec   109 KBytes   897 Kbits/sec
+[ 21]  61.00-62.00  sec   107 KBytes   880 Kbits/sec
+[ 21]  62.00-63.02  sec   112 KBytes   900 Kbits/sec
+[ 21]  63.02-64.03  sec   102 KBytes   825 Kbits/sec
+[ 21]  64.03-65.03  sec   102 KBytes   832 Kbits/sec
+[ 21]  65.03-66.03  sec   100 KBytes   823 Kbits/sec
+[ 21]  66.03-67.02  sec   105 KBytes   868 Kbits/sec
+[ 21]  67.02-68.03  sec   103 KBytes   833 Kbits/sec
+[ 21]  68.03-69.00  sec   102 KBytes   860 Kbits/sec
+[ 21]  69.00-70.02  sec   113 KBytes   911 Kbits/sec
+[ 21]  70.02-71.01  sec   113 KBytes   936 Kbits/sec
+[ 21]  71.01-72.03  sec   113 KBytes   908 Kbits/sec
+[ 21]  72.03-73.01  sec   110 KBytes   926 Kbits/sec
+[ 21]  73.01-74.00  sec   110 KBytes   905 Kbits/sec
+[ 21]  74.00-75.01  sec   103 KBytes   844 Kbits/sec
+[ 21]  75.01-76.01  sec   185 KBytes  1.51 Mbits/sec
+[ 21]  76.01-77.01  sec  35.4 KBytes   289 Kbits/sec
+[ 21]  77.01-78.00  sec  39.6 KBytes   328 Kbits/sec
+[ 21]  78.00-79.00  sec  38.2 KBytes   313 Kbits/sec
+[ 21]  79.00-80.04  sec  41.0 KBytes   324 Kbits/sec
+[ 21]  80.04-81.02  sec  38.2 KBytes   319 Kbits/sec
+[ 21]  81.02-82.03  sec  38.2 KBytes   308 Kbits/sec
+[ 21]  82.03-83.01  sec  35.4 KBytes   295 Kbits/sec
+[ 21]  83.01-84.00  sec  41.0 KBytes   341 Kbits/sec
+[ 21]  84.00-85.00  sec  36.8 KBytes   301 Kbits/sec
+[ 21]  85.00-86.02  sec  39.6 KBytes   320 Kbits/sec
+[ 21]  86.02-87.06  sec  41.0 KBytes   321 Kbits/sec
+[ 21]  87.06-88.06  sec  29.7 KBytes   243 Kbits/sec
+[ 21]  88.06-89.00  sec  33.9 KBytes   297 Kbits/sec
+[ 21]  89.00-90.00  sec  33.9 KBytes   277 Kbits/sec
+[ 21]  90.00-91.01  sec  36.8 KBytes   300 Kbits/sec
+[ 21]  91.01-92.04  sec  42.4 KBytes   335 Kbits/sec
+[ 21]  92.04-93.00  sec  35.4 KBytes   302 Kbits/sec
+[ 21]  93.00-94.00  sec  38.2 KBytes   313 Kbits/sec
+[ 21]  94.00-95.00  sec  42.4 KBytes   347 Kbits/sec
+[ 21]  95.00-96.00  sec  36.8 KBytes   301 Kbits/sec
+[ 21]  96.00-97.00  sec  65.0 KBytes   533 Kbits/sec
+[ 21]  97.00-98.00  sec   546 KBytes  4.47 Mbits/sec
+[ 21]  98.00-99.00  sec  77.8 KBytes   637 Kbits/sec
+[ 21]  99.00-100.00 sec  77.8 KBytes   638 Kbits/sec
+[ 21] 100.00-101.00 sec  77.8 KBytes   637 Kbits/sec
+[ 21] 101.00-102.00 sec  76.4 KBytes   625 Kbits/sec
+[ 21] 102.00-103.00 sec  77.8 KBytes   637 Kbits/sec
+[ 21] 103.00-104.00 sec  77.8 KBytes   635 Kbits/sec
+[ 21] 104.00-105.00 sec  76.4 KBytes   627 Kbits/sec
+[ 21] 105.00-106.00 sec  76.4 KBytes   625 Kbits/sec
+[ 21] 106.00-107.00 sec  77.8 KBytes   638 Kbits/sec
+[ 21] 107.00-108.00 sec  77.8 KBytes   637 Kbits/sec
+[ 21] 108.00-109.00 sec  77.8 KBytes   637 Kbits/sec
+[ 21] 109.00-110.00 sec  76.4 KBytes   626 Kbits/sec
+[ 21] 110.00-111.00 sec  77.8 KBytes   637 Kbits/sec
+[ 21] 111.00-112.00 sec  93.3 KBytes   765 Kbits/sec
+[ 21] 112.00-113.00 sec   117 KBytes   961 Kbits/sec
+[ 21] 113.00-114.00 sec   116 KBytes   951 Kbits/sec
+[ 21] 114.00-115.00 sec   120 KBytes   984 Kbits/sec
+[ 21] 115.00-116.00 sec   116 KBytes   950 Kbits/sec
+[ 21] 116.00-117.00 sec   116 KBytes   950 Kbits/sec
+[ 21] 117.00-118.00 sec   119 KBytes   973 Kbits/sec
+[ 21] 118.00-119.00 sec   116 KBytes   949 Kbits/sec
+[ 21] 119.00-120.00 sec   116 KBytes   951 Kbits/sec
+[ 21] 120.00-121.00 sec   116 KBytes   950 Kbits/sec
+[ 21] 121.00-122.00 sec   117 KBytes   962 Kbits/sec
+[ 21] 122.00-123.00 sec   116 KBytes   950 Kbits/sec
+[ 21] 123.00-124.00 sec   117 KBytes   961 Kbits/sec
+[ 21] 124.00-125.03 sec   287 KBytes  2.29 Mbits/sec
+[ 21] 125.03-126.00 sec  36.8 KBytes   309 Kbits/sec
+[ 21] 126.00-127.00 sec  41.0 KBytes   336 Kbits/sec
+[ 21] 127.00-128.00 sec  39.6 KBytes   324 Kbits/sec
+[ 21] 128.00-129.00 sec  38.2 KBytes   314 Kbits/sec
+[ 21] 129.00-130.00 sec  41.0 KBytes   336 Kbits/sec
+[ 21] 130.00-131.00 sec  39.6 KBytes   324 Kbits/sec
+[ 21] 131.00-132.01 sec  38.2 KBytes   311 Kbits/sec
+[ 21] 132.01-133.00 sec  41.0 KBytes   338 Kbits/sec
+[ 21] 133.00-134.00 sec  39.6 KBytes   324 Kbits/sec
+[ 21] 134.00-135.00 sec   358 KBytes  2.93 Mbits/sec
+[ 21] 135.00-136.00 sec  59.4 KBytes   486 Kbits/sec
+[ 21] 136.00-137.00 sec  59.4 KBytes   486 Kbits/sec
+[ 21] 137.00-138.01 sec  59.4 KBytes   483 Kbits/sec
+[ 21] 138.01-139.03 sec  59.4 KBytes   475 Kbits/sec
+[ 21] 139.03-140.03 sec  59.4 KBytes   488 Kbits/sec
+[ 21] 140.03-141.01 sec  59.4 KBytes   498 Kbits/sec
+[ 21] 141.01-142.00 sec  56.6 KBytes   467 Kbits/sec
+[ 21] 142.00-142.92 sec  55.1 KBytes   492 Kbits/sec
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Retr
+[ 21]   0.00-142.92 sec  19.5 MBytes  1.15 Mbits/sec  2227             sender
+[ 21]   0.00-142.92 sec  12.0 MBytes   707 Kbits/sec                  receiver
+-----------------------------------------------------------
+Server listening on 80
+-----------------------------------------------------------
